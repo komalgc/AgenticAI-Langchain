@@ -3,6 +3,11 @@ import { ChatOpenAI } from "@langchain/openai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
+//Batch execution is useful when you want to run the 
+// same prompt 
+// + same model  
+// + same logic for many inputs at once.
+
 async function demoBatchExecution() {
   console.log("--- Demonstrating Batch Execution ---");
 
