@@ -1,0 +1,58 @@
+import "dotenv/config";
+import { ChatOpenAI } from "@langchain/openai";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { StringOutputParser } from "@langchain/core/output_parsers";
+
+async function demoBatchExecution() {
+  console.log("--- Demonstrating Batch Execution ---");
+
+  // 1. Create the prompt template
+  // {text} is the input variable we will pass later
+  const prompt = ChatPromptTemplate.fromTemplate(
+    "Translate the following text to French: {text}"
+  );
+
+  // 2. Create the model
+  const model = new ChatOpenAI({
+    model: "gpt-4o-mini",
+    temperature: 0,
+  });
+
+  // 3. Create the parser
+  // This converts the AI response into a plain string
+  const parser = new StringOutputParser();
+
+  // 4. Create the chain
+  // Flow: prompt -> model -> parser
+  const chain = prompt.pipe(model).pipe(parser);
+
+  // 5. Create multiple inputs
+  // Important: the key must be "text"
+  // because our prompt has {text}
+  const inputs = [
+    {
+      text: "Hello, how are you?",
+    },
+    {
+      text: "What is your name?",
+    },
+    {
+      text: "Where is the nearest restaurant?",
+    },
+  ];
+
+  // 6. Run the chain for all inputs using batch()
+  // This sends multiple inputs through the same chain
+  const results = await chain.batch(inputs);
+
+  // 7. Print input and output together
+  inputs.forEach((input, index) => {
+    console.log("\nInput:", input.text);
+    console.log("Output:", results[index]);
+  });
+}
+
+// Execute the function
+demoBatchExecution().catch((err) => {
+  console.error("Error running batch execution:", err);
+});
