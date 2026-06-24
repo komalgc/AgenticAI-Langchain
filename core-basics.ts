@@ -3,6 +3,9 @@ import { ChatOpenAI } from "@langchain/openai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
+//LangChain Core Concepts - LCEL and 
+// Runnable Chains - Hands-on
+
 async function demoBasicChain() {
   console.log("--- Demonstrating Basic LCEL Chain ---");
 
